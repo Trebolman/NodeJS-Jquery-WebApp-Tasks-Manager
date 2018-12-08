@@ -10,3 +10,9 @@ body{
     /* width: ; */
     /* height: 600px; */
 }
+.bg-pendiente{
+    background-color: rgb(231, 124, 82) !important;
+}
+.bg-hecho{
+    background-color: rgb(53, 120, 207) !important;
+}

@@ -1,21 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <title>Agenda iPlain</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="css/iStyle.css">
+    <!-- <link rel="stylesheet" href="css/iStyle.css"> -->
     <!-- <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css?family=Charmonman|Dancing+Script|Pacifico|Shadows+Into+Light" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/bootstrap.css" media="screen">
     <!-- <style>
         @import url('https://fonts.googleapis.com/css?family=Gamja+Flower|Roboto');
     </style> -->
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="./js/ajax.js"></script>
+    
+    <!-- <script type="text/javascript">
+        $(function() {
+            // $('.error').hide();
+            $("#btnSubmit").click(function() {
+            // validate and process form here
+            
+            // $('.error').hide();
+            var name = $("input#name").val();
+            //     if (name == "") {
+            //     $("label#name_error").show();
+            //     $("input#name").focus();
+            //     return false;
+            // }
+                var description = $("input#description").val();
+            //     if (email == "") {
+            //     $("label#email_error").show();
+            //     $("input#email").focus();
+            //     return false;
+            // }
+                // var phone = $("input#phone").val();
+            //     if (phone == "") {
+            //     $("label#phone_error").show();
+            //     $("input#phone").focus();
+            //     return false;
+            // }
+            
+            var dataString = 'name='+ name + '&description=' + description;
+            //alert (dataString);return false;
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:3800/API/addTask",
+                data: dataString,
+                success: function() {
+                            $('#myForm').html("<div id='message'></div>");
+                            $('#message').html("<h2>Contact Form Submitted!</h2>")
+                            .append("<p>We will be in touch soon.</p>")
+                            .hide()
+                            .fadeIn(1500, function() {
+                                $('#message').append("<img id='checkmark' src='images/check.png' />");
+                            });
+                        }
+            });
+            return false;
+
+            });
+        });
+    </script> -->
 </head>
 <body>
-    <div class="container ">
+    <div class="container">
     <div class="row">
         <div class="col-12">
             <h1 class="text-black-50 text-center m-0">REGISTRO DE TAREAS AGENDA iPLAIN</h1>
@@ -25,23 +75,35 @@
     <!-- Registro de tareas -->
     <div class="row bg-dark">
         <div class="col-md-4 p-3 ">
-            <label for="" class="text-white pl-2">INGRESO DE TAREAS</label>
-            <div class="form-group bg-danger p-3 pl-2">
-                <label for="" class="text-white ">Ingrese tarea:</label>
-                <input type="text" name="" id="" class="form-control" placeholder="Ejm: Programar JQuery" aria-describedby="helpId">
-                <label for=""class="mt-4 text-white">Descripcion</label>
-                <textarea class="form-control rounded-top" rows="10" name="" id="" rows="3"></textarea>
+            <form id="myForm" action="http://localhost:3800/API/AddTask" method="post">
+            <!-- <form id="myForm" action="" method="post"> -->
+                <label for="" class="text-white pl-2">INGRESO DE TAREAS</label>
+                <div class="form-group bg-danger p-3 pl-2">
+                    <label for="" class="text-white ">Ingrese tarea:</label>
+                    <input type="text" name="name" id="name" class="form-control" placeholder="Ejm: Programar JQuery" aria-describedby="helpId">
+                    <label for="" class="mt-4 text-white">Descripcion</label>
+                    <textarea class="form-control rounded-top" rows="10" name="description" id="description" rows="3"></textarea>
+                    
+                    <!-- <label class="text-white  mt-4" for="">Estado:</label>
+                    <input type="text" class="form-control text-white d-none" name="" id="" aria-describedby="helpId" placeholder="Pendiente">
+                    <small id="helpId" class="form-text text-white">(Pendiente por defecto)</small> -->
 
-                <a name="" id="" class="btn btn-dark mt-3" href="#" role="button">Agregar</a>
-                <!-- <small id="helpId" class="text-white pl-2">140 caracteres</small> -->
-            </div>
+                    <!-- <button type="submit" id="button" class="btn btn-dark mt-3"><a href="./agenda.html">Agregar</a></button> -->
+                    <button type="submit" id="btnSubmit" class="btn btn-dark mt-3">Agregar</button>
+                    <!-- <a id="btnSubmit" href="#" type="submit">Agregar</a> -->
+                    <!-- <input name="" id="" class="btn btn-dark mt-3" type="submit" role="button">Agregar -->
+                    <!-- <input class="btn btn mt" type="submit">Agregar</input> -->
+                    <!-- <small id="helpId" class="text-white pl-2">140 caracteres</small> -->
+                    <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </div>
+            </form>
         </div>
 
     <!-- Lista de tareas agregadas -->
         <div class="col-md-8">
             <div class="row bg-dark p-3">
                 <label for="" class="text-white pl-2">LISTA DE TAREAS</label>
-                <table class="table table-bordered bg-light">
+                <table class="table table-bordered bg-light" id="miTabla">
                     <thead class="bg-danger">
                         <tr class="text-center">
                             <th>#</th>
@@ -50,21 +112,23 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <!-- <tbody>
                         <tr>
                             <td scope="row">1</td>
-                            <td>Pintar</td>
-                            <td>Pintar en Photoshop</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
                                 <button class="btn btn-block btn-dark">Hecho</button>
                             </td>
+
                         </tr>
-                        <!-- <tr>
+                        <tr>
                             <td scope="row"></td>
                             <td></td>
                             <td></td>
-                        </tr> -->
-                    </tbody>
+                        </tr>
+                    </tbody> -->
                 </table>
                 
             </div>
@@ -76,6 +140,53 @@
 </div>
 
 <!-- Optional JavaScript -->
+<!-- <script type="text/javascript">
+    $(function() {
+        // $('.error').hide();
+        $("#btnSubmit").click(function() {
+        // validate and process form here
+        
+        // $('.error').hide();
+        var name = $("input#name").val();
+        //     if (name == "") {
+        //     $("label#name_error").show();
+        //     $("input#name").focus();
+        //     return false;
+        // }
+            var description = $("input#description").val();
+        //     if (email == "") {
+        //     $("label#email_error").show();
+        //     $("input#email").focus();
+        //     return false;
+        // }
+            // var phone = $("input#phone").val();
+        //     if (phone == "") {
+        //     $("label#phone_error").show();
+        //     $("input#phone").focus();
+        //     return false;
+        // }
+        
+        var dataString = 'name='+ name + '&description=' + description;
+        //alert (dataString);return false;
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3800/API/addTask",
+            data: dataString,
+            success: function() {
+                        $('#myForm').html("<div id='message'></div>");
+                        $('#message').html("<h2>Contact Form Submitted!</h2>")
+                        .append("<p>We will be in touch soon.</p>")
+                        .hide()
+                        .fadeIn(1500, function() {
+                            $('#message').append("<img id='checkmark' src='images/check.png' />");
+                        });
+                    }
+        });
+        return false;
+
+        });
+    });
+</script> -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
